@@ -4,6 +4,6 @@ import basicSsl from "@vitejs/plugin-basic-ssl";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "https://raphaelkottakal2.github.io/rock-paper-scissors",
+  base: "https://raphaelkottakal2.github.io/fiber-testing",
   plugins: [react(), basicSsl()],
 });
