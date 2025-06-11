@@ -44,26 +44,35 @@ export default function () {
     const handelOrientationEvent = (event) => {
       const { alpha, beta, gamma } = event;
       const { prevAlpha, prevBeta, prevGamma } = prevRef.current;
-      console.log(gamma, prevGamma);
-      console.log("orientationValues", beta, playerRef.current);
+      // console.log(gamma, prevGamma);
+      // console.log("orientationValues", beta, playerRef.current);
 
-      quaternionX.current.setFromAxisAngle(
-        vectorX.current,
-        THREE.MathUtils.degToRad(prevBeta - beta)
+      console.log("Rand");
+      const radX = THREE.MathUtils.degToRad(beta);
+      const radY = THREE.MathUtils.degToRad(gamma);
+      const radZ = THREE.MathUtils.degToRad(alpha);
+      console.log(radX);
+      console.log(
+        playerRef.current.rotation.set(radX - Math.PI / 2, radY, radZ)
       );
-      playerRef.current.applyQuaternion(quaternionX.current);
 
-      quaternionY.current.setFromAxisAngle(
-        vectorY.current,
-        THREE.MathUtils.degToRad(gamma - prevGamma)
-      );
-      playerRef.current.applyQuaternion(quaternionY.current);
+      // quaternionX.current.setFromAxisAngle(
+      //   vectorX.current,
+      //   THREE.MathUtils.degToRad(prevBeta - beta)
+      // );
+      // playerRef.current.applyQuaternion(quaternionX.current);
 
-      quaternionZ.current.setFromAxisAngle(
-        vectorZ.current,
-        THREE.MathUtils.degToRad(alpha - prevAlpha)
-      );
-      playerRef.current.applyQuaternion(quaternionY.current);
+      // quaternionY.current.setFromAxisAngle(
+      //   vectorY.current,
+      //   THREE.MathUtils.degToRad(gamma - prevGamma)
+      // );
+      // playerRef.current.applyQuaternion(quaternionY.current);
+
+      // quaternionZ.current.setFromAxisAngle(
+      //   vectorZ.current,
+      //   THREE.MathUtils.degToRad(alpha - prevAlpha)
+      // );
+      // playerRef.current.applyQuaternion(quaternionY.current);
 
       prevRef.current = {
         prevAlpha: alpha,
@@ -84,7 +93,7 @@ export default function () {
           <boxGeometry />
           <meshStandardMaterial color={"red"} />
         </mesh> */}
-        <group rotation={[Math.PI / 2, 0, 0]}>
+        <group>
           <primitive
             name="main-player"
             ref={playerRef}
