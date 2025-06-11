@@ -27,6 +27,7 @@ export default function () {
     return mesh;
   }, [scene, playerRef.current]);
 
+  const originEuler = useRef(new THREE.Euler(0, 0, 0));
   const quaternionX = useRef(new THREE.Quaternion());
   const vectorX = useRef(new THREE.Vector3(1, 0, 0).normalize());
   const quaternionY = useRef(new THREE.Quaternion());
@@ -47,20 +48,21 @@ export default function () {
       // console.log(gamma, prevGamma);
       // console.log("orientationValues", beta, playerRef.current);
 
-      console.log("Rand");
       const radX = THREE.MathUtils.degToRad(beta);
       const radY = THREE.MathUtils.degToRad(gamma);
       const radZ = THREE.MathUtils.degToRad(alpha);
-      console.log(radX);
-      console.log(
-        playerRef.current.rotation.set(radX - Math.PI / 2, radY, radZ)
-      );
+      // playerRef.current.rotation.set(radX - Math.PI / 2, radY, 0);
 
-      // quaternionX.current.setFromAxisAngle(
-      //   vectorX.current,
-      //   THREE.MathUtils.degToRad(prevBeta - beta)
-      // );
-      // playerRef.current.applyQuaternion(quaternionX.current);
+      playerRef.current.rotation.copy(originEuler.current);
+
+      quaternionX.current.setFromAxisAngle(vectorX.current, radX - Math.PI / 2);
+      playerRef.current.applyQuaternion(quaternionX.current);
+
+      // quaternionY.current.setFromAxisAngle(vectorY.current, radY);
+      // playerRef.current.applyQuaternion(quaternionY.current);
+
+      // quaternionZ.current.setFromAxisAngle(vectorZ.current, radZ);
+      // playerRef.current.applyQuaternion(quaternionZ.current);
 
       // quaternionY.current.setFromAxisAngle(
       //   vectorY.current,
