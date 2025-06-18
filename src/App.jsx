@@ -18,8 +18,8 @@ function App() {
         camera={{ fov: 75, near: 0.1, far: 1000, position: [0, 0, 8] }}
       >
         <Suspense>
-          <color attach="background" args={["#c3c3c3"]} />
-          <Physics debug>
+          <color attach="background" args={["#000000"]} />
+          <Physics>
             <Scene />
           </Physics>
           <OrbitControls />

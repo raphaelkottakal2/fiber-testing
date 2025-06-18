@@ -2,6 +2,8 @@ import * as THREE from "three";
 import { PivotControls, useGLTF } from "@react-three/drei";
 import { useMemo, useRef, useEffect } from "react";
 import { Physics, RigidBody, CuboidCollider } from "@react-three/rapier";
+import { DeviceOrientationControls } from "three-stdlib";
+import { useFrame } from "@react-three/fiber";
 
 export default function () {
   const { scene } = useGLTF(
@@ -23,7 +25,7 @@ export default function () {
     }
     mesh.castShadow = true;
     mesh.receiveShadow = true;
-    console.log("mesh", mesh);
+    // console.log("mesh", mesh);
     return mesh;
   }, [scene, playerRef.current]);
 
@@ -41,7 +43,10 @@ export default function () {
   });
   const rotationIsReady = useRef(false);
 
+  const controls = useRef(null);
+
   useEffect(() => {
+    controls.current = new DeviceOrientationControls(playerRef.current);
     const handelOrientationEvent = (event) => {
       const { alpha, beta, gamma } = event;
       const { prevAlpha, prevBeta, prevGamma } = prevRef.current;
@@ -51,17 +56,23 @@ export default function () {
       const radX = THREE.MathUtils.degToRad(beta);
       const radY = THREE.MathUtils.degToRad(gamma);
       const radZ = THREE.MathUtils.degToRad(alpha);
-      // playerRef.current.rotation.set(radX - Math.PI / 2, radY, 0);
+      // playerRef.current.rotation.set(radX - Math.PI / 2, 0, 0);
 
-      playerRef.current.rotation.copy(originEuler.current);
+      // playerRef.current.rotation.copy(origin/Euler.current);
 
-      quaternionX.current.setFromAxisAngle(vectorX.current, radX - Math.PI / 2);
-      playerRef.current.applyQuaternion(quaternionX.current);
+      // console.log(playerRef.current.rotation.x);
 
-      // quaternionY.current.setFromAxisAngle(vectorY.current, radY);
+      const radXdiff = playerRef.current.rotation.x - radX + Math.PI / 2;
+      const radYdiff = playerRef.current.rotation.y - radY;
+      const radZdiff = playerRef.current.rotation.z - radZ;
+
+      // quaternionX.current.setFromAxisAngle(vectorX.current, radXdiff);
+      // playerRef.current.applyQuaternion(quaternionX.current);
+
+      // quaternionY.current.setFromAxisAngle(vectorY.current, radYdiff);
       // playerRef.current.applyQuaternion(quaternionY.current);
 
-      // quaternionZ.current.setFromAxisAngle(vectorZ.current, radZ);
+      // quaternionZ.current.setFromAxisAngle(vectorZ.current, radZdiff);
       // playerRef.current.applyQuaternion(quaternionZ.current);
 
       // quaternionY.current.setFromAxisAngle(
@@ -88,9 +99,12 @@ export default function () {
       removeEventListener("deviceorientation", handelOrientationEvent);
     };
   }, []);
+  useFrame(() => {
+    controls.current.update();
+  });
   return (
     <>
-      <RigidBody type="fixed">
+      <RigidBody type="fixed" colliders="hull">
         {/* <mesh ref={playerRef}>
           <boxGeometry />
           <meshStandardMaterial color={"red"} />
