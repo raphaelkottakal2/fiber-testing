@@ -47,10 +47,12 @@ export default function () {
 
   useEffect(() => {
     controls.current = new DeviceOrientationControls(playerRef.current);
+    controls.current.alphaOffset = -Math.PI / 2;
     const handelOrientationEvent = (event) => {
       const { alpha, beta, gamma } = event;
       const { prevAlpha, prevBeta, prevGamma } = prevRef.current;
-      // console.log(gamma, prevGamma);
+      // console.log("controls", controls.current.euler);
+      // console.log("player", playerRef.current.rotation);
       // console.log("orientationValues", beta, playerRef.current);
 
       const radX = THREE.MathUtils.degToRad(beta);
