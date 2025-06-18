@@ -37,7 +37,7 @@ export default function () {
       const { alpha, beta, gamma } = event;
       const radBeta = THREE.MathUtils.degToRad(beta);
       const radGama = THREE.MathUtils.degToRad(gamma);
-      const radAlpha = THREE.MathUtils.degToRad(alpha);
+      const radAlpha = THREE.MathUtils.degToRad(alpha) - Math.PI / 2;
 
       anEuler.current.set(radBeta, radAlpha, -radGama, "YXZ"); // 'ZXY' for the device, but 'YXZ' for us
       playerRef.current.quaternion.setFromEuler(anEuler.current); // orient the device
