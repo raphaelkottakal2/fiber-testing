@@ -51,6 +51,7 @@ export default function () {
       lookAtRef.current.applyQuaternion(playerRef.current.quaternion);
 
       lookAtRef.current.multiplyScalar(3);
+      lookAtRef.current.add(new THREE.Vector3(0, 1, 0));
     };
     addEventListener("deviceorientation", handelOrientationEvent);
 
@@ -60,7 +61,7 @@ export default function () {
   }, []);
   useFrame(() => {
     const points = [];
-    points.push(new THREE.Vector3());
+    points.push(new THREE.Vector3(0, 1, 0));
     points.push(lookAtRef.current);
 
     const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
@@ -71,7 +72,7 @@ export default function () {
   });
 
   const points = [];
-  points.push(new THREE.Vector3());
+  points.push(new THREE.Vector3(0, 1, 0));
   points.push(lookAtRef.current);
 
   const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
@@ -94,7 +95,7 @@ export default function () {
           <lineBasicMaterial
             attach="material"
             color={"#ff0000"}
-            linewidth={10}
+            linewidth={16}
             linecap={"round"}
             linejoin={"round"}
           />
