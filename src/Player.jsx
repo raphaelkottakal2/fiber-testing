@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { PivotControls, useGLTF } from "@react-three/drei";
+import { PivotControls, useGLTF, Mask, useMask } from "@react-three/drei";
 import { useRef, useEffect } from "react";
 import { RigidBody } from "@react-three/rapier";
 import { DeviceOrientationControls } from "three-stdlib";
@@ -10,6 +10,7 @@ export default function () {
     "https://instamart-media-assets.swiggy.com/DeSo/test/fiber-testing/Player.glb?updatedAt=1747315104926"
   );
   const playerRef = useRef(null);
+
   useEffect(() => {
     const mesh = scene.getObjectByName("Player");
     if (!mesh) {
@@ -46,7 +47,7 @@ export default function () {
         q0.current.setFromAxisAngle(zee.current, 0)
       ); // adjust for screen orientation
 
-      // const lookAtVector = new THREE.Vector3(0, 0, -1);
+      const lookAtVector = new THREE.Vector3(0, 0, -1);
       lookAtRef.current.set(0, 0, 1);
       lookAtRef.current.applyQuaternion(playerRef.current.quaternion);
 
@@ -63,11 +64,8 @@ export default function () {
     const points = [];
     points.push(new THREE.Vector3(0, 1, 0));
     points.push(lookAtRef.current);
-
     const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-
     lineRef.current.geometry = lineGeometry;
-
     // controls.current.update();
   });
 
@@ -76,13 +74,11 @@ export default function () {
   points.push(lookAtRef.current);
 
   const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+
+  const stencil = useMask(1, true);
   return (
     <>
-      <RigidBody type="fixed" colliders="hull">
-        {/* <mesh ref={playerRef}>
-          <boxGeometry />
-          <meshStandardMaterial color={"red"} />
-        </mesh> */}
+      <RigidBody type="fixed" colliders="hull" position={[0, 0, -3.5]}>
         <group>
           <primitive
             name="main-player"

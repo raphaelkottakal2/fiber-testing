@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { useHelper } from "@react-three/drei";
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
+import { Environment } from "@react-three/drei";
 
 export default function () {
   const directionalLightRef = useRef(null);
@@ -12,8 +13,9 @@ export default function () {
   });
   return (
     <>
-      <ambientLight />
-      <group ref={lightGroup}>
+      {/* <hemisphereLight intensity={1} groundColor="red" /> */}
+      {/* <ambientLight /> */}
+      {/* <group ref={lightGroup}>
         <directionalLight
           ref={directionalLightRef}
           intensity={4}
@@ -25,7 +27,8 @@ export default function () {
           shadow-camera-far={16}
           shadow-bias={-0.005}
         />
-      </group>
+      </group> */}
+      <Environment preset="city" />
       {/* <Environment preset="studio" background /> */}
       {/* <AccumulativeShadows
         temporal

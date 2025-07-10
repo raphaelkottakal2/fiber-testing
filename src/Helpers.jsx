@@ -9,7 +9,7 @@ export default function () {
           labelColor="white"
         />
       </GizmoHelper>
-      <Grid position={[0, -0.01, 0]} args={[10.5, 10.5]} />
+      {/* <Grid position={[0, -0.01, 0]} args={[10.5, 10.5]} /> */}
     </>
   );
 }

@@ -15,14 +15,20 @@ function App() {
     >
       <Canvas
         shadows
-        camera={{ fov: 75, near: 0.1, far: 1000, position: [0, 0, 8] }}
+        // camera={{ fov: 75, near: 0.1, far: 1000, position: [0, 0.5, 0.25] }}
+        camera={{ fov: 75, near: 0.1, far: 1000, position: [0, 0, 2] }}
+        gl={{ stencil: true }}
       >
-        <Suspense>
+        <Suspense fallback={null}>
           <color attach="background" args={["#000000"]} />
           <Physics>
             <Scene />
           </Physics>
-          <OrbitControls />
+          <OrbitControls
+            maxDistance={32}
+            minDistance={1}
+            enableRotate={false}
+          />
         </Suspense>
       </Canvas>
     </div>
