@@ -17,10 +17,10 @@ import BoolTest from "./BoolTest";
 export default function () {
   return (
     <>
-      {/* <Pizza /> */}
+      <Pizza />
       {/* <MaskTest /> */}
       <Player />
-      <BoolTest />
+      {/* <BoolTest /> */}
       {/* <Ground /> */}
       {/* <Helpers /> */}
       <Lighting />

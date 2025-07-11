@@ -1,135 +1,132 @@
+import {
+  Geometry,
+  Base,
+  Addition,
+  Subtraction,
+  ReverseSubtraction,
+  Intersection,
+  Difference,
+} from "@react-three/csg";
 import { gsap } from "gsap/dist/gsap";
-import * as THREE from "three";
-import { PivotControls, useGLTF, Mask, useMask } from "@react-three/drei";
-import { useRef, useEffect, useState } from "react";
-import { RigidBody } from "@react-three/rapier";
-import { DeviceOrientationControls } from "three-stdlib";
-import { useFrame } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
+import { useEffect, useRef } from "react";
 
 export default function () {
   const { scene } = useGLTF(
-    "https://media-assets.swiggy.com/DeSo/Misc/fiber-test/pep-pizza.glb?updatedAt=1752179413844"
+    "https://media-assets.swiggy.com/DeSo/Misc/fiber-test/pepp-pizza.glb?updatedAt=1752190375251"
   );
-  const pizza1Ref = useRef(null);
-  const pizza2Ref = useRef(null);
-  const mask1Ref = useRef(null);
-  const mask2Ref = useRef(null);
-  const stencil1 = useMask(1, !true);
-  const stencil2 = useMask(2, !true);
-  const [hasMask, setHasMask] = useState(true);
+  const splitRef = useRef(null);
+  const geoRef = useRef(null);
+  const mainMesh = useRef(null);
+
+  const splitRef2 = useRef(null);
+  const geoRef2 = useRef(null);
+  const mainMesh2 = useRef(null);
 
   useEffect(() => {
-    setInterval(() => {
-      setHasMask(true);
-      gsap.to(mask1Ref.current.position, {
-        duration: 1,
-        x: -0.15,
-        ease: "power1.inOut",
-      });
-      gsap.to(mask2Ref.current.position, {
-        duration: 1,
-        x: 0.15,
-        ease: "power1.inOut",
-      });
-      gsap.to(pizza1Ref.current.position, {
-        delay: 1,
-        duration: 1,
-        x: -0.03,
-        ease: "power1.inOut",
-      });
-      gsap.to(pizza2Ref.current.position, {
-        delay: 1,
-        duration: 1,
-        x: 0.03,
-        ease: "power1.inOut",
-      });
-    }, 2000);
+    gsap.to(splitRef.current.position, {
+      delay: 1,
+      duration: 1,
+      x: 0.5,
+      onUpdate: () => {
+        // geoRef.current.update();
+      },
+      onComplete: () => {
+        geoRef.current.update();
+        mainMesh.current.geometry.translate(0.25, 0, 0);
+        mainMesh.current.position.set(-0.25, 0, 0);
+      },
+    });
+    gsap.to(mainMesh.current.rotation, {
+      delay: 2,
+      duration: 1,
+      // x: Math.PI * 2,
+      y: (-30 * Math.PI) / 180,
+      // z: Math.PI * 2,
+      ease: "power1.inOut",
+    });
+    gsap.to(mainMesh.current.position, {
+      delay: 2,
+      duration: 1,
+      x: -0.5,
+      // z: Math.PI * 2,
+      ease: "power1.inOut",
+    });
+
+    // second slice
+    gsap.to(splitRef2.current.position, {
+      delay: 1,
+      duration: 1,
+      x: -0.5,
+      onUpdate: () => {
+        // geoRef.current.update();
+      },
+      onComplete: () => {
+        geoRef2.current.update();
+        mainMesh2.current.geometry.translate(-0.25, 0, 0);
+        mainMesh2.current.position.set(0.25, 0, 0);
+      },
+    });
+    gsap.to(mainMesh2.current.rotation, {
+      delay: 2,
+      duration: 1,
+      // x: Math.PI * 2,
+      y: (30 * Math.PI) / 180,
+      // z: Math.PI * 2,
+      ease: "power1.inOut",
+    });
+    gsap.to(mainMesh2.current.position, {
+      delay: 2,
+      duration: 1,
+      x: 0.5,
+      // z: Math.PI * 2,
+      ease: "power1.inOut",
+    });
   }, []);
-
-  useEffect(() => {
-    const mesh = scene.getObjectByName("Object_2");
-    if (!mesh) {
-      console.error("Object_2 mesh not found in the loaded model");
-    }
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    gsap.to(pizza1Ref.current.scale, {
-      duration: 1,
-      x: 1,
-      y: 1,
-      z: 1,
-      ease: "power2.inOut",
-    });
-    gsap.to(pizza1Ref.current.rotation, {
-      duration: 1.5,
-      x: Math.PI * 1.5,
-      y: Math.PI * 2,
-      ease: "power1.inOut",
-    });
-
-    gsap.to(pizza2Ref.current.scale, {
-      duration: 1,
-      x: 1,
-      y: 1,
-      z: 1,
-      ease: "power2.inOut",
-    });
-    gsap.to(pizza2Ref.current.rotation, {
-      duration: 1.5,
-      x: Math.PI * 1.5,
-      y: Math.PI * 2,
-      ease: "power1.inOut",
-    });
-  }, [scene, pizza1Ref.current, pizza2Ref.current]);
 
   return (
     <>
-      <group ref={pizza1Ref} scale={[0, 0, 0]} visible={!false}>
-        {hasMask && (
-          <Mask
-            ref={mask1Ref}
-            scale={[0.3, 0.3, 0.05]}
-            position={[0, 0, 0]}
-            id={1}
-            depthWrite={!true}
-            colorWrite={!true}
+      <mesh ref={mainMesh}>
+        <Geometry useGroups ref={geoRef}>
+          {/* <Base scale={[1, 1, 1]}>
+            <boxGeometry />
+            </Base> */}
+          <Base geometry={scene.children[0].geometry}>
+            <meshStandardMaterial map={scene.children[0].material.map} />
+            {/* <meshStandardMaterial /> */}
+          </Base>
+          <Subtraction
+            ref={splitRef}
+            position={[1, 0, 0]}
+            scale={[1, 1, 0.25]}
+            // rotation={[0, 0, Math.PI * 0.25]}
           >
             <boxGeometry />
-          </Mask>
-        )}
-        <mesh geometry={scene.children[0].geometry}>
-          <meshStandardMaterial
-            map={scene.children[0].material.map}
-            {...stencil1}
-          />
-        </mesh>
-      </group>
+            <meshStandardMaterial color="#73321f" />
+          </Subtraction>
+        </Geometry>
+      </mesh>
 
-      <group
-        ref={pizza2Ref}
-        scale={[0, 0, 0]}
-        position={[0, 0, 0]}
-        visible={!false}
-      >
-        {hasMask && (
-          <Mask
-            ref={mask2Ref}
-            scale={[0.3, 0.3, 0.05]}
-            position={[0, 0, 0]}
-            id={2}
-            depthWrite={!true}
-            colorWrite={!true}
+      <mesh ref={mainMesh2}>
+        <Geometry useGroups ref={geoRef2}>
+          {/* <Base scale={[1, 1, 1]}>
+            <boxGeometry />
+            </Base> */}
+          <Base geometry={scene.children[0].geometry}>
+            <meshStandardMaterial map={scene.children[0].material.map} />
+            {/* <meshStandardMaterial /> */}
+          </Base>
+          <Subtraction
+            ref={splitRef2}
+            position={[-1, 0, 0]}
+            scale={[1, 1, 0.25]}
+            // rotation={[0, 0, Math.PI * 0.25]}
           >
             <boxGeometry />
-          </Mask>
-        )}
-        <mesh geometry={scene.children[0].geometry}>
-          <meshStandardMaterial
-            map={scene.children[0].material.map}
-            {...stencil2}
-          />
-        </mesh>
-      </group>
+            <meshStandardMaterial color="#73321f" />
+          </Subtraction>
+        </Geometry>
+      </mesh>
     </>
   );
 }

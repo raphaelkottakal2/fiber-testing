@@ -28,7 +28,14 @@ export default function () {
           shadow-bias={-0.005}
         />
       </group> */}
-      <Environment preset="city" />
+      <Environment
+        preset="studio"
+        background
+        // backgroundIntensity={0.1}
+        blur={1}
+        // backgroundBlurriness={0.1}
+        environmentIntensity={0.5}
+      />
       {/* <Environment preset="studio" background /> */}
       {/* <AccumulativeShadows
         temporal

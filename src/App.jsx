@@ -27,7 +27,7 @@ function App() {
           <OrbitControls
             maxDistance={32}
             minDistance={1}
-            enableRotate={false}
+            enableRotate={!false}
           />
         </Suspense>
       </Canvas>
