@@ -15,24 +15,18 @@ function App() {
         height: "100vh",
       }}
     >
-      <Canvas
-        ref={canvasRef}
-        shadows
-        // camera={{ fov: 75, near: 0.1, far: 1000, position: [0, 0.5, 0.25] }}
-        camera={{ fov: 75, near: 0.1, far: 1000, position: [0, 0, 2] }}
-        gl={{ stencil: true }}
-      >
+      <Canvas ref={canvasRef} shadows gl={{ stencil: false }}>
         <Suspense fallback={null}>
           <color attach="background" args={["#000000"]} />
           <Physics>
             <Scene />
           </Physics>
           <OrbitControls
-            maxDistance={32}
+            // maxDistance={32}
             minDistance={1}
-            enableRotate={false}
+            enableRotate={!false}
           />
-          <SplitControls canvas={canvasRef} />
+          {/* <SplitControls canvas={canvasRef} /> */}
         </Suspense>
       </Canvas>
     </div>

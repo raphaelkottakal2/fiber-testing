@@ -3,6 +3,8 @@ import {
   AccumulativeShadows,
   RandomizedLight,
   MeshReflectorMaterial,
+  Sky,
+  Stars,
 } from "@react-three/drei";
 import Helpers from "./Helpers";
 import Player from "./Player";
@@ -13,19 +15,30 @@ import Gyroscope from "./Gyroscope";
 import Ground from "./Ground";
 import MaskTest from "./MaskTest";
 import BoolTest from "./BoolTest";
+import TestCube from "./TestCube";
+import TestCubeTwo from "./TestCubeTwo";
+import UI from "./UI";
+import Camera from "./Camera";
 
 export default function () {
   return (
     <>
-      <Pizza />
+      {/* <fog attach="fog" color="#000000" near={10} far={16} /> */}
+      {/* <Pizza /> */}
       {/* <MaskTest /> */}
-      <Player />
+      {/* <Player /> */}
       {/* <BoolTest /> */}
       {/* <Ground /> */}
-      {/* <Helpers /> */}
+      <Helpers />
       <Lighting />
-      {/* <Floor /> */}
+      <Floor y={-3} />
+      <TestCube />
+      <TestCubeTwo />
+      <UI />
       {/* <Gyroscope /> */}
+      <Camera />
+      <Sky sunPosition={[0, 0.1, -1]} turbidity={0.1} />
+      {/* <Stars /> */}
     </>
   );
 }

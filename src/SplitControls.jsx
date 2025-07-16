@@ -71,7 +71,7 @@ export default function ({ canvas, enabled = true }) {
     if (distance < 0.15) {
       twoPosition.applyAxisAngle(
         new THREE.Vector3(0, 0, 1),
-        ((isOne ? 16 : -16) * Math.PI) / 180
+        ((isOne ? -16 : 16) * Math.PI) / 180
       );
       matrixOne.makeTranslation(twoPosition);
       setPoints([[twoPosition.x, twoPosition.y, twoPosition.z], points[1]]);
@@ -103,7 +103,10 @@ export default function ({ canvas, enabled = true }) {
           newPosition.multiplyScalar(radiusScalar);
 
           newPosition.setZ(handleOnePosition.z);
+          // newPosition.clampLength(0.5, 1);
           matrixOne.makeTranslation(newPosition);
+          console.log(newPosition.x, newPosition.y);
+          console.log(newPosition.length());
           setPoints([[newPosition.x, newPosition.y, newPosition.z], points[1]]);
         }}
         matrix={matrixOne}

@@ -165,15 +165,15 @@ export default function () {
             position={[midPointVector.x, midPointVector.y, 0]}
             rotation={[0, 0, rotaionAngle]}
           >
-            <Subtraction
+            <Addition
               ref={splitRef}
               position={[splitGap, 0, 0]}
               scale={[1, 2, 0.25]}
             >
               <boxGeometry />
-              <meshStandardMaterial color="green" />
-              {/* <meshStandardMaterial color="red" transparent opacity={0.25} /> */}
-            </Subtraction>
+              {/* <meshStandardMaterial color="green" /> */}
+              <meshStandardMaterial color="green" transparent opacity={0.25} />
+            </Addition>
           </group>
         </Geometry>
       </mesh>
@@ -191,15 +191,15 @@ export default function () {
             position={[midPointVector.x, midPointVector.y, 0]}
             rotation={[0, 0, rotaionAngle]}
           >
-            <Subtraction
+            <Addition
               ref={splitRef2}
               position={[-splitGap, 0, 0]}
               scale={[1, 2, 0.25]}
             >
               <boxGeometry />
-              <meshStandardMaterial color="blue" />
-              {/* <meshStandardMaterial color="blue" transparent opacity={0.25} /> */}
-            </Subtraction>
+              {/* <meshStandardMaterial color="blue" /> */}
+              <meshStandardMaterial color="blue" transparent opacity={0.25} />
+            </Addition>
           </group>
         </Geometry>
       </mesh>

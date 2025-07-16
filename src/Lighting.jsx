@@ -14,7 +14,7 @@ export default function () {
   return (
     <>
       {/* <hemisphereLight intensity={1} groundColor="red" /> */}
-      {/* <ambientLight /> */}
+      {/* <ambientLight intensity={1} /> */}
       {/* <group ref={lightGroup}>
         <directionalLight
           ref={directionalLightRef}
@@ -30,11 +30,11 @@ export default function () {
       </group> */}
       <Environment
         preset="studio"
-        background
+        // background
         // backgroundIntensity={0.1}
-        blur={1}
+        // blur={1}
         // backgroundBlurriness={0.1}
-        environmentIntensity={0.5}
+        environmentIntensity={0.64}
       />
       {/* <Environment preset="studio" background /> */}
       {/* <AccumulativeShadows
